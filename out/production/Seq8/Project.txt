@@ -1,0 +1,63 @@
+Question 1 :  Questions générales.
+
+(1) et (2) sur fichier word.
+
+Question 2 : Réalisation de l’algorithme et codage en Java de la fonction « recherche » :
+(1) : Fichier BinaryTree.java
+
+(2) : Pseudo-code de la fonction de recherche :
+
+FONCTION recherche(Arbre a, Valeur v)
+    SI [valeur de a = v] ALORS
+        trouvé=vrai
+    FIN_SI
+    SINON
+        SI [valeur de a < v]  ALORS
+            SI [enfant droit de a existe]
+                retourner recherche(a.enfantDroit,v)
+            FIN_SI
+            SINON
+                trouvé <- faux
+            FIN_SINON
+        FIN_SI
+        SINON
+            SI [enfant gauche de a existe] ALORS
+                retourner recherche(a.enfantGauche)
+            FIN_SI
+            SINON
+                trouvé <- faux
+            FIN_SINON
+        FIN_SINON
+    FIN_SINON
+FIN_FONCTION
+
+(3) :
+
+(4) : Fichier BinaryTree.java
+
+(5) :
+
+Question 3 :  Réalisation de l’algorithme et codage en Java de la fonction « insertion » .
+
+(1) : Pseudo-code de la fonction insertion :
+
+FONCTION insertion(Arbre a, Valeur v)
+    SI [ v < a.valeur ]
+        SI [a.enfantGauche inexistant] ALORS
+            a.enfantGauche <- Nouvel arbre avec valeur v
+            retourner vrai
+        FIN_SI
+        SINON
+            retourner insertion(enfantGauche, v)
+        FIN_SINON
+    SINON SI [v > a.valeur]
+        SI [a.enfantDroit inexistant] ALORS
+            a.enfantDroit <- Nouvel arbre avec valeur v
+            retourner vrai
+        FIN_SI
+        SINON
+            retourner insertion(enfaitDroit, v)
+        FIN_SINON
+    FIN_SINON
+    retourner faux
+FIN_FONCTION

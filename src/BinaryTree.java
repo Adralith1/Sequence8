@@ -6,58 +6,59 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class BinaryTree {
-    private BinaryTree leftChildren;
-    private BinaryTree rightChildren;
-    private int value;
-    public BinaryTree()
+    private BinaryTree leftChildren; //l'enfant "gauche" du noeud
+    private BinaryTree rightChildren; //l'enfant "droit" du noeud
+    private int value; // la valeur du noeux
+    public BinaryTree() // Un constructeur vide
     {}
-    public BinaryTree(int value)
+    public BinaryTree(int value) // Un constructeur avec en paramètre la valeur du premier noeud
     {
         this.value=value;
     }
 
-    public BinaryTree getLeftChildren() {
+    public BinaryTree getLeftChildren() { // Obtenir l'enfant gauche
         return leftChildren;
     }
-    public BinaryTree getRightChildren() {
+    public BinaryTree getRightChildren() {// Obtenir l'enfant droit
         return rightChildren;
     }
-    public void setRightChildren(BinaryTree rightChildren)
+    public void setRightChildren(BinaryTree rightChildren) // remplacer l'enfant droit
     {
         this.rightChildren=rightChildren;
     }
-    public void setLeftChildren(BinaryTree leftChildren)
+    public void setLeftChildren(BinaryTree leftChildren) //remplacer l'enfant gauche
     {
         this.leftChildren=leftChildren;
     }
-    public Boolean insertion(int valueToInsert)
+    public static Boolean insertion(BinaryTree binaryTree, int valueToInsert) // fonction d'insertion d'une valeur
     {
-        if(valueToInsert<this.value)
+        if(valueToInsert<binaryTree.value) //si la valeur a inserer est plus petite que la valeur du noeud courant
         {
-            if(this.leftChildren ==null)
+            if(binaryTree.leftChildren ==null) // et si il n'y a d'enfant à gauche
             {
-                this.leftChildren=new BinaryTree(valueToInsert);
+                binaryTree.leftChildren=new BinaryTree(valueToInsert); //alors on en créé un avec la valeur à insérer
                 return true;
             }
             else
-                return leftChildren.insertion(valueToInsert);
+                return insertion(binaryTree.leftChildren, valueToInsert); // sinon c'est qu'il y a un enfant, et du coup on "descend" dans l'enfant de gauche
         }
-        else if(valueToInsert>this.value)
+        else if(valueToInsert>binaryTree.value)// si la valeur a inserer est plus grande que celle du noeud courant
         {
-            if(this.rightChildren==null)
+            if(binaryTree.rightChildren==null) // si il n'y a pas d'enfant a droite
             {
-                this.rightChildren=new BinaryTree(valueToInsert);
+                binaryTree.rightChildren=new BinaryTree(valueToInsert); // alors on le creer
+                return true;
             }
             else
-                return this.rightChildren.insertion(valueToInsert);
+                return insertion(binaryTree.rightChildren, valueToInsert); // sinon on "descend" dans l'enfant de droite
         }
-        return false;
+        return false; // on retourne faux pour signaler que l'insertion s'est mal passée
     }
-    public int getValue()
+    public int getValue() // obtenir la valeur d'un noeud
     {
         return value;
     }
-    public int hauteur(BinaryTree binaryTree)
+    public int hauteur(BinaryTree binaryTree) // retourner la hauteur de l'arbre
     {
         if(binaryTree==null)
         {
@@ -67,7 +68,7 @@ public class BinaryTree {
             return (1+Math.max(hauteur(binaryTree.getLeftChildren()),hauteur(binaryTree.getRightChildren())));
     }
 
-    public ArrayList<String> getTreeDatas(BinaryTree bTree,int hauteur,int niveau, ArrayList<String> datas)
+    public static ArrayList<String> getTreeDatas(BinaryTree bTree,int hauteur,int niveau, ArrayList<String> datas) // Fonction d'affichage pour donner une idée "visuelle"
     {
         if(bTree==null)
         {
@@ -80,7 +81,7 @@ public class BinaryTree {
         return datas;
     }
 
-    public void printHashmapDatas(ArrayList<String> treeDatas)
+    public static void printHashmapDatas(ArrayList<String> treeDatas)
     {
         String firstChar="";
         int firstCharInt=0;
@@ -132,29 +133,29 @@ public class BinaryTree {
        }
     }
 
-    public static boolean recherche(BinaryTree binaryTree, int valueToLookFor)
+    public static boolean recherche(BinaryTree binaryTree, int valueToLookFor) // fonction de recherche d'un element
     {
         boolean found=false;
-        if(binaryTree.value==valueToLookFor) {
-            found=true;
+        if(binaryTree.value==valueToLookFor) { //si la valeur du noeud courant est la même que celle recherchée
+            found=true; // on a trouvé
         }
-        else
+        else // sinon
             {
-                if (binaryTree.value<valueToLookFor)
+                if (binaryTree.value<valueToLookFor) // si elle est supérieure
                 {
-                    if(binaryTree.rightChildren!=null)
-                       return recherche(binaryTree.rightChildren,valueToLookFor);
-                    else
-                        found=false;
+                    if(binaryTree.rightChildren!=null) // et qu'il y a un enfant droit
+                       return recherche(binaryTree.rightChildren,valueToLookFor); // on recherche du côté de l'enfant droit
+                    else // si il n'y a pas d'enfant droit
+                        found=false; //alors la valeur n'existe pas
                 }
-                else
+                else // si elle est inférieure
                 {
-                    if(binaryTree.leftChildren!=null)
+                    if(binaryTree.leftChildren!=null) // et qu'il y a un enfant gauche
                     {
-                        return recherche(binaryTree.leftChildren,valueToLookFor);
+                        return recherche(binaryTree.leftChildren,valueToLookFor);// alors on va rechercher du côté de l'enfant gauche
                     }
-                    else
-                        found=false;
+                    else // si il n'y a pas d'enfant gauche
+                        found=false; // alors la valeur n'existe pas.
                 }
             }
             return found;
@@ -162,15 +163,15 @@ public class BinaryTree {
 
     public static void main(String args[])
     {
-        ArrayList<String> datas=new ArrayList<String>();
-        BinaryTree binaryTree=new BinaryTree(65);
-        binaryTree.insertion(40);
-        binaryTree.insertion(80);
-        binaryTree.insertion(30);
-        binaryTree.insertion(48);
-        binaryTree.insertion(75);
-        datas=binaryTree.getTreeDatas(binaryTree,binaryTree.hauteur(binaryTree),0,datas);
-        //binaryTree.printHashmapDatas(datas);
-        System.out.println(recherche(binaryTree,22));
+        ArrayList<String> datas=new ArrayList<String>(); // Creation d'une ArrayList de String pour l'affichage
+        BinaryTree binaryTree=new BinaryTree(65); // On créer un arbre binaire avec "65" comme valeur dans le premier noeud
+        insertion(binaryTree,40); // on insère quelques valeurs
+        insertion(binaryTree,80);
+        insertion(binaryTree,30);
+        insertion(binaryTree,48);
+        insertion(binaryTree,75);
+        datas=getTreeDatas(binaryTree,binaryTree.hauteur(binaryTree),0,datas); // On récupére ses datas dans l'arraylist pour les print
+        printHashmapDatas(datas); // on les print
+        System.out.println(recherche(binaryTree,22)); // On vérifie que l'élement entier est dans l'arbre (True , trouvé, false, pas trouvé)
     }
 }
