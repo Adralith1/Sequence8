@@ -68,70 +68,21 @@ public class BinaryTree {
             return (1+Math.max(hauteur(binaryTree.getLeftChildren()),hauteur(binaryTree.getRightChildren())));
     }
 
-    public static ArrayList<String> getTreeDatas(BinaryTree bTree,int hauteur,int niveau, ArrayList<String> datas) // Fonction d'affichage pour donner une idée "visuelle"
-    {
-        if(bTree==null)
-        {
-            datas.add(hauteur + " " + "X");
-            return null;
-        }
-        datas.add(hauteur + " " + bTree.value);
-        getTreeDatas(bTree.leftChildren,hauteur+1,niveau,datas);
-        getTreeDatas(bTree.rightChildren,hauteur+1,niveau,datas);
-        return datas;
-    }
-
-    public static void printHashmapDatas(ArrayList<String> treeDatas)
-    {
-        String firstChar="";
-        int firstCharInt=0;
-        ArrayList<Integer> tabDeint=new ArrayList<Integer>();
-        ArrayList<String> arbreLigneParLignes=new ArrayList<String>();
-        boolean newLine=false;
-        treeDatas.sort(String::compareToIgnoreCase);
-        String tempStr="";
-        for(int i=0;i<treeDatas.size();i++)
-        {
-            firstChar = treeDatas.get(i).substring(0, 1);
-            firstCharInt = Integer.parseInt(firstChar);
-            tabDeint.add(firstCharInt);
-        }
-       for(int i=0;i<treeDatas.size();i++) {
-           firstChar = treeDatas.get(i).substring(0, 1);
-           firstCharInt = Integer.parseInt(firstChar);
-
-           if(firstCharInt!=tabDeint.get(i+1) ) {newLine=true;}
-           else newLine=false;
-           tabDeint.add(firstCharInt);
-           tempStr += "\t";
-           tempStr+=treeDatas.get(i).subSequence(1, treeDatas.get(i).length());
-           tempStr+="\t";
-           if(newLine)
-           {
-               tempStr+="\n";
-           }
-           arbreLigneParLignes.add(tempStr);
-           tempStr="";
+   public static void parcoursPrefixe(BinaryTree binaryTree)
+   {
+       System.out.print(binaryTree.value+ " - ");
+       if(binaryTree.getLeftChildren()!=null)
+       {
+           parcoursPrefixe(binaryTree.leftChildren);
        }
-       int cpt=0;
-        for(int i=0;i<arbreLigneParLignes.get((arbreLigneParLignes.size()-1)).length()/2;i++)
-            System.out.print("\t");
-       for(int i=0;i<arbreLigneParLignes.size();i++) {
-           if(arbreLigneParLignes.get(i)!="\t")
-           {
-               for(int j=0;j<i;j++)
-               {
-                   cpt++;
-               }
-           }
-           System.out.print(arbreLigneParLignes.get(i));
-           if(cpt%2==0)
-           {
-               System.out.print("\t");
-           }
-           cpt=0;
+
+       if(binaryTree.getRightChildren()!=null)
+       {
+          parcoursPrefixe(binaryTree.rightChildren);
        }
-    }
+   }
+
+
 
     public static boolean recherche(BinaryTree binaryTree, int valueToLookFor) // fonction de recherche d'un element
     {
@@ -170,8 +121,8 @@ public class BinaryTree {
         insertion(binaryTree,30);
         insertion(binaryTree,48);
         insertion(binaryTree,75);
-        datas=getTreeDatas(binaryTree,binaryTree.hauteur(binaryTree),0,datas); // On récupére ses datas dans l'arraylist pour les print
-        printHashmapDatas(datas); // on les print
+        parcoursPrefixe(binaryTree);
+        System.out.println();
         System.out.println(recherche(binaryTree,22)); // On vérifie que l'élement entier est dans l'arbre (True , trouvé, false, pas trouvé)
     }
 }
